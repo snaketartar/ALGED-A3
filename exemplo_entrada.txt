@@ -1,0 +1,8 @@
+grupo: Ana Bia Guga Pedro
+grupo: Joao Olga
+grupo: Maria Manuel Alface
+existe: Bia
+existe: Ana
+existe: Banana
+conhece: Maria Alface
+conhece: Guga Olga
