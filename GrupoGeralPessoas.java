@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class GrupoGeralPessoas {
-    private Map<String, Set<String>> pessoas;
+    public Map<String, Set<String>> pessoas;
 
     public GrupoGeralPessoas() {
         this.pessoas = new HashMap<>();
@@ -25,22 +25,33 @@ public class GrupoGeralPessoas {
         return pessoas.containsKey(nome) ? nome + " existe!" : nome + " não existe!";
     }
 
-    public String verificarConhecimentoPessoas(String nome1, String nome2) {
-        return pessoas.values().stream()
-                .filter(amigosIndividuoMap -> filtroConhecidos(amigosIndividuoMap, nome1, nome2))
-                .findFirst()
-                .map(m -> nome1 + " conhece " + nome2)
-                .orElse(nome1 + " não conhece " + nome2);
+    public String printConhecimentoPessoas(String nome1, String nome2) {
+        for (Map.Entry<String, Set<String>> entry : pessoas.entrySet()) {
+            String pessoaChaveAtual = entry.getKey();
+            Set<String> pessoasConhecidasDaChave = entry.getValue();
+            if(pessoaChaveAtual.equals(nome1) && pessoasConhecidasDaChave.contains(nome2)){
+                return nome1 + " conhece " + nome2;
+            } else if (pessoaChaveAtual.equals(nome2) && pessoasConhecidasDaChave.contains(nome1)){
+                return nome1 + " conhece " + nome2;
+            } else if (pessoasConhecidasDaChave.contains(nome1) && (pessoasConhecidasDaChave.contains(nome2))){
+                return nome1 + " conhece " + nome2;
+            }
+        }
+        return nome1 + " não conhece " + nome2;
     }
-    
-    
-    
-    private boolean filtroConhecidos(Set<String> map,  String nome1, String nome2) {
-        if(pessoas.containsKey(nome1) && map.contains(nome2)){
-            return true;
-        } else if (pessoas.containsKey(nome2) && map.contains(nome1)) {
-          return true;
-        } 
+
+    public boolean verificaconhecimentoPessoas(String nome1, String nome2) {
+        for (Map.Entry<String, Set<String>> entry : pessoas.entrySet()) {
+            String pessoaChaveAtual = entry.getKey();
+            Set<String> pessoasConhecidasDaChave = entry.getValue();
+            if(pessoaChaveAtual.equals(nome1) && pessoasConhecidasDaChave.contains(nome2)){
+                return true;
+            } else if (pessoaChaveAtual.equals(nome2) && pessoasConhecidasDaChave.contains(nome1)){
+                return true;
+            } else if (pessoasConhecidasDaChave.contains(nome1) && (pessoasConhecidasDaChave.contains(nome2))){
+                return true;
+            }
+        }
         return false;
-   }
+    }
 }
