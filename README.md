@@ -1,5 +1,14 @@
 # ALGED-A3
 
+Nome e RA dos integrantes:
+
+Frederico Kenji Kaneto Monma - 820148078
+Ivan Megre Souto - 820273937
+Jedaias Farias de Jesus - 820146360
+Luiz Gustavo Dos Reis De Souza - 820137777
+Mateus Oliveira Souza - 820110893
+Victor Santos e Santos -820143889
+
 Fase 1:
 
 Foi criada a classe **GrupoGeralPessoas** para centralizar os valores, ela possui uma variável pessoas do tipo Map<String, Set<String>>, cada entrada desse map recebe uma string chave (nome da pessoa) e uma lista de nomes de pessoas conhecidas da pessoa chave.
