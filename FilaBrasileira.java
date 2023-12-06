@@ -1,11 +1,11 @@
 import java.util.*;
 
 class FilaBrasileira {
-    private Map<String, List<String>> filas;
+    private LinkedHashMap<String, List<String>> filas;
     private GrupoGeralPessoas grupoGeralPessoas;
 
     public FilaBrasileira(GrupoGeralPessoas grupoGeralPessoas) {
-        this.filas = new HashMap<>();
+        this.filas = new LinkedHashMap<>();
         this.grupoGeralPessoas = grupoGeralPessoas;
     }
 
@@ -28,22 +28,33 @@ class FilaBrasileira {
 
     private void adicionaNaFila(String nome) {
         String melhorFilaDeDesconhecidos = "";
+        String melhorFilaDeConhecidos = "";
         int comprimentoMenorFila = Integer.MAX_VALUE;
-
-        for (Map.Entry<String, List<String>> fila : filas.entrySet()) {
-            for (int i = 0; i < fila.getValue().size(); i++) {
-                String pessoaNaFila = fila.getValue().get(i);
+        int posicaoAposAmigoEncontrado = Integer.MAX_VALUE;
+        
+        for (String filaAtual : filas.keySet()) {
+            List<String> conteudoFila = filas.get(filaAtual);
+            for (int i = 0; i < conteudoFila.size(); i++) {
+                String pessoaNaFila = conteudoFila.get(i);
                 boolean conheceAlguemNaFila = grupoGeralPessoas.verificaconhecimentoPessoas(nome, pessoaNaFila);
 
                 if (conheceAlguemNaFila) {
-                    filas.get(fila.getKey()).add(i + 1, nome);
-                    return;
+                    if (melhorFilaDeConhecidos.equals(filaAtual)) {
+                        posicaoAposAmigoEncontrado = i + 1;
+                    } else if (i + 1 < posicaoAposAmigoEncontrado && !melhorFilaDeConhecidos.equals(filaAtual)) {
+                        melhorFilaDeConhecidos = filaAtual;
+                        posicaoAposAmigoEncontrado = i + 1;
+                    }
                 }
             }
-            if (fila.getValue().size() < comprimentoMenorFila) {
-                melhorFilaDeDesconhecidos = fila.getKey();
-                comprimentoMenorFila = fila.getValue().size();
+            if (conteudoFila.size() <= comprimentoMenorFila) {
+                melhorFilaDeDesconhecidos = filaAtual;
+                comprimentoMenorFila = conteudoFila.size();
             }
+        }
+        if (posicaoAposAmigoEncontrado < Integer.MAX_VALUE && posicaoAposAmigoEncontrado < comprimentoMenorFila) {
+            filas.get(melhorFilaDeConhecidos).add(posicaoAposAmigoEncontrado, nome);
+            return;
         }
         filas.get(melhorFilaDeDesconhecidos).add(nome);
     }
